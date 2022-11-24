@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/auth_page.dart';
+import 'package:project/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: AuthPage(),
+      home: HomePage(),
     );
   }
 }

@@ -22,9 +22,7 @@ class _AuthPageState extends State<AuthPage> {
   Future<void> _checkBio() async {
     try {
       _hasBioSensor = await authentication.canCheckBiometrics;
-
       print(_hasBioSensor);
-
       if (_hasBioSensor!) {
         _getAuth();
       }
@@ -45,14 +43,9 @@ class _AuthPageState extends State<AuthPage> {
           useErrorDialogs: true,
           stickyAuth: true,
         ),
-        //    biometricOnly: true,
-        // useErrorDialogs: true,
-        // stickyAuth: true
       );
 
-      //if fingerprint scan match then
-      //isAuth = true
-      // therefore will navigate user to WelcomePage/HomePage of the App
+      //  check fingerprint scan and then navigate user to HomePage
       if (isAuth) {
         Navigator.pushReplacement(
           context,
@@ -61,7 +54,6 @@ class _AuthPageState extends State<AuthPage> {
           ),
         );
       }
-
       print(isAuth);
     } on PlatformException catch (e) {
       print(e);
@@ -71,7 +63,7 @@ class _AuthPageState extends State<AuthPage> {
   @override
   void initState() {
     super.initState();
-    //  call method immediately when app launch
+    //  call checkBio method when app launch
     _checkBio();
   }
 
