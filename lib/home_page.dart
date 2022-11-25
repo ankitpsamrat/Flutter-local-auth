@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/method.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,28 +13,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //
 
-  String? stringResponse;
-  Map? mapResponse;
-  Map? dataResponse;
+  List<Welcome> welcome = [];
 
-  Future apicall() async {
-    http.Response response;
-    response = await http.get(Uri.parse(
+  Future<List<Welcome>> getData() async {
+    // http.Response response;
+    final response = await http.get(Uri.parse(
         'https://api.github.com/users/JakeWharton/repos?page=1&per_page=15'));
+    var data = jsonDecode(response.body.toString());
 
     if (response.statusCode == 200) {
-      setState(() {
-        // stringResponse = response.body;
-        mapResponse = json.decode(response.body);
-        dataResponse = mapResponse['owner'];
-      });
+      for (Map<String, dynamic> index in data) {
+        welcome.add(Welcome.fromJson(index));
+      }
+      return welcome;
+    } else {
+      return welcome;
     }
-  }
-
-  @override
-  void initState() {
-    apicall();
-    super.initState();
   }
 
   @override
@@ -42,37 +37,50 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Jake's Git"),
       ),
-      body: ListView.separated(
-        itemCount: 25,
-        separatorBuilder: (BuildContext context, int index) =>
-            const Divider(height: 1),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: const Icon(Icons.bookmark_add),
-            title: Text('item $index'),
-            subtitle: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(dataResponse['login'].toString()),
-                  Row(
-                    children: const [
-                      Icon(Icons.person),
-                      Text('check'),
-                      SizedBox(width: 15),
-                      Icon(Icons.person),
-                      Text('check'),
-                      SizedBox(width: 15),
-                      Icon(Icons.person),
-                      Text('check'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            isThreeLine: true,
-          );
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+          future: getData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.separated(
+                itemCount: welcome.length,
+                separatorBuilder: (context, index) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: const Icon(Icons.bookmark_add),
+                    title: Text('item $index'),
+                    subtitle: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${welcome[index].url}'),
+                          Row(
+                            children: const [
+                              Icon(Icons.person),
+                              Text('check'),
+                              SizedBox(width: 15),
+                              Icon(Icons.person),
+                              Text('check'),
+                              SizedBox(width: 15),
+                              Icon(Icons.person),
+                              Text('check'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    isThreeLine: true,
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
     );
   }
