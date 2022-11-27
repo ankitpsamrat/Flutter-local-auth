@@ -148,11 +148,11 @@ class Welcome {
   final String sshUrl;
   final String cloneUrl;
   final String svnUrl;
-  final String homepage;
+  final dynamic homepage;
   final int size;
   final int stargazersCount;
   final int watchersCount;
-  final String language;
+  final dynamic language;
   final bool hasIssues;
   final bool hasProjects;
   final bool hasDownloads;
@@ -171,7 +171,7 @@ class Welcome {
   final List<dynamic> topics;
   final Visibility? visibility;
   final int forks;
-  final int openIssues;
+  final dynamic openIssues;
   final int watchers;
   final DefaultBranch? defaultBranch;
 

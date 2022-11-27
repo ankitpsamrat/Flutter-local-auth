@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/method.dart';
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
     final response = await http.get(Uri.parse(
         'https://api.github.com/users/JakeWharton/repos?page=1&per_page=15'));
     var data = jsonDecode(response.body.toString());
+
+    // print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       for (Map<String, dynamic> index in data) {
@@ -48,27 +51,28 @@ class _HomePageState extends State<HomePage> {
                 separatorBuilder: (context, index) => const Divider(height: 1),
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: const Icon(Icons.bookmark_add),
-                    title: Text('item $index'),
-                    subtitle: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${welcome[index].url}'),
-                          Row(
-                            children: const [
-                              Icon(Icons.person),
-                              Text('check'),
-                              SizedBox(width: 15),
-                              Icon(Icons.person),
-                              Text('check'),
-                              SizedBox(width: 15),
-                              Icon(Icons.person),
-                              Text('check'),
-                            ],
-                          ),
-                        ],
-                      ),
+                    leading: const Icon(
+                      CupertinoIcons.bookmark,
+                      size: 30,
+                    ),
+                    title: Text(welcome[index].name),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(welcome[index].description),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('<>${welcome[index].language}'),
+                            // const SizedBox(width: 15),
+
+                            Text(welcome[index].openIssuesCount.toString()),
+                            // const SizedBox(width: 15),
+
+                            Text(welcome[index].watchersCount.toString()),
+                          ],
+                        ),
+                      ],
                     ),
                     isThreeLine: true,
                   );

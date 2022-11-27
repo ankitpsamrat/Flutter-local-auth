@@ -31,10 +31,11 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
+  //  loaded a dialog to scan fingerprint
+
   Future<void> _getAuth() async {
     bool isAuth = false;
 
-    //loaded a dialog to scan fingerprint
     try {
       isAuth = await authentication.authenticate(
         localizedReason: 'Scan your finger print to access the app',
@@ -46,6 +47,7 @@ class _AuthPageState extends State<AuthPage> {
       );
 
       //  check fingerprint scan and then navigate user to HomePage
+      
       if (isAuth) {
         Navigator.pushReplacement(
           context,
@@ -69,32 +71,32 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // const Text(
-          //   'Local Fingerprint Auth',
-          //   style: TextStyle(fontSize: 25),
-          // ),
-          // const SizedBox(height: 40),
-          Container(
-            padding: const EdgeInsets.only(left: 30, right: 30),
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            child: ElevatedButton(
-              onPressed: () {
-                _checkBio();
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const StadiumBorder(),
-                backgroundColor: Colors.green,
-              ),
-              child: const Text('Check Auth'),
-            ),
-          ),
-        ],
-      ),
-    );
+    return const Scaffold(
+        // body: Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        // const Text(
+        //   'Local Fingerprint Auth',
+        //   style: TextStyle(fontSize: 25),
+        // ),
+        // const SizedBox(height: 40),
+        // Container(
+        //   padding: const EdgeInsets.only(left: 30, right: 30),
+        //   height: 50,
+        //   width: MediaQuery.of(context).size.width,
+        //   child: ElevatedButton(
+        //     onPressed: () {
+        //       _checkBio();
+        //     },
+        //     style: ElevatedButton.styleFrom(
+        //       shape: const StadiumBorder(),
+        //       backgroundColor: Colors.green,
+        //     ),
+        //     child: const Text('Check Auth'),
+        //   ),
+        // ),
+        //   ],
+        // ),
+        );
   }
 }
