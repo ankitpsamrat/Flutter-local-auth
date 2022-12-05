@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:project/method.dart';
+import 'package:project/method/api_method.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
